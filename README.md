@@ -10,6 +10,14 @@ Curso: ***Engenharia de Controle e Automação***
 
 ---
 
+## Índice:
+
+- [Sobre este repositorio](#sobre-este-repositório)
+- [Sobre o grupo 11](#sobre-o-grupo-11)
+- [A escolha do nome](#a-escolha-do-nome)
+
+---
+
 ## Sobre este repositório
 
 Este repositório reúne trabalhos aleatórios dos últimos anos do nosso grupo do curso de Engenharia de Controle e Automação
