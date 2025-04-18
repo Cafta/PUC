@@ -14,17 +14,14 @@ Curso: ***Engenharia de Controle e Automação***
 
 - [Sobre este repositorio](#sobre-este-repositório)
 - [Sobre o grupo 11](#sobre-o-grupo-11)
-- [A escolha do nome](#a-escolha-do-nome)
+- [Indice de Projetos](#indice-de-projetos)
+- [Licença](#licença)
 
 ---
 
 ## Sobre este repositório
 
-Este repositório reúne trabalhos aleatórios dos últimos anos do nosso grupo do curso de Engenharia de Controle e Automação
-
-Os primeiros anos, ainda não fazíamos registros formais dos trabalhos. 
-
-Nem sempre os integrantes são todos iguais nos trabalhos, de forma que em cada pasta, o README.md, quando existir, trará os detalhes do projeto e seus integrantes.
+Este repositório reúne trabalhos aleatórios dos últimos anos do nosso grupo do curso de Engenharia de Controle e Automação. Os primeiros anos, ainda não fazíamos registros formais dos trabalhos. Nem sempre os integrantes são todos iguais nos trabalhos, de forma que em cada pasta, o README.md, quando existir, trará os detalhes do projeto e seus integrantes.
 
 ---
 
@@ -42,6 +39,20 @@ O nome ***Grupo 11*** remete a avaliação de seus trabalhos. Enquanto bons grup
 ![Imagem do Logo do Grupo 11](pics/bola11_modelo_small.png)
 
 </div>
+
+## Indice de Projetos
+
+### [Experimentos IA 2024 (Prof.Everton)](2024_AI_Everton)
+
+Este Repertório não foi completamente organizado. Porém há vários trabalhos com Machine Learning das aulas em note books com explicações.
+
+*Linguagem:* **Python**
+
+### [Robô seguidor de Linha](2025_Seguidor_de_Linha)
+
+Este projeto aborda a tecnologia de robô seguidor de linha com arduíno. Porém trabalha com uma integração com o RaspBerry Pi Pico e a placa BitDogLab produzida na UNICAMP
+
+*Linguagem:* **C**
 
 ## Licença
 
