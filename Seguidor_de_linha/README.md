@@ -22,7 +22,7 @@ Este serve como um primeiro passo para se desenvolver sistemas de automatizaçã
 
 ***Estrutura***
 
-Os subdiretórios \bidDogLab e \Arduino são devidos ao fato da programação ser feita individualmente nas duas placas. A comunicação entre elas se dará através de I2C. Mais detalhes sobre cada uma das programações nas suas respectivas pastas.
+Os subdiretórios [\bidDogLab](bitDogLab) e [\Arduino](arduino) são devidos ao fato da programação ser feita individualmente nas duas placas. A comunicação entre elas se dará através de I2C. Mais detalhes sobre cada uma das programações nas suas respectivas pastas.
 
 **Integrantes**
 - *Carlos Amaral*

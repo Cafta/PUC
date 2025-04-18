@@ -48,7 +48,7 @@ Este Repertório não foi completamente organizado. Porém há vários trabalhos
 
 *Linguagem:* **Python**
 
-### [Robô seguidor de Linha](2025_Seguidor_de_Linha)
+### [Robô seguidor de Linha](Seguidor_de_linha)
 
 Este projeto aborda a tecnologia de robô seguidor de linha com arduíno. Porém trabalha com uma integração com o RaspBerry Pi Pico e a placa BitDogLab produzida na UNICAMP
 
