@@ -1,3 +1,4 @@
+#line 1 "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\README.md"
 <div align="center">
 
 # Robô seguidor de linha 
@@ -69,18 +70,6 @@ Neste estado o robô segue vagarosamente para frente até registrar o(s) comando
 |                           |      ( 0  -  1 )                  | P/ dir                            |
 |       ( 1  -  1 )         | muda de estado         | **Código para trocar de estado**      |
 
-O processo genérico pode ser representado no diagrama a seguir. O *Comando I2C* é a ponde de integração entre o Arduino e o Raspberry Pi Pico, que controla a interface de interação do usuário através do [***BitDogLab***](../bitDogLab/). 
-
-![Diagrama do Esquema Geral](../pics/Fluxograma01_small.png)
-
-Os Diagramas a seguir mostram o detalhe do fluxograma para controle das navegação do carrinho (controle das rodas).
-
-![Diagrama do Esquema do controle de Navegação](../pics/Fluxograma02_small.png)
-![Diagrama detalhe da função vel_motor()](../pics/Fluxograma03_small.png)
-
-Os Diagramas seguintes se referem ao controle de Decisão.
-
-(A COMPLETAR)
 
 ---
 
