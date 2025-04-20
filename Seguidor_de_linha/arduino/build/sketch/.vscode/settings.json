@@ -1,0 +1,8 @@
+#line 1 "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\.vscode\\settings.json"
+{
+    "arduino.useArduinoCli": true,
+    "arduino.path": "",
+    "arduino.commandPath": "",
+    "C_Cpp.default.configurationProvider": "vsciot-vscode.vscode-arduino"
+  }
+  
