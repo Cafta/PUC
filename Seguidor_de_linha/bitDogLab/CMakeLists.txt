@@ -40,12 +40,9 @@ add_executable(bitDogLab bitDogLab.c )
 pico_set_program_name(bitDogLab "bitDogLab")
 pico_set_program_version(bitDogLab "0.1")
 
-# Generate PIO header
-pico_generate_pio_header(bitDogLab ${CMAKE_CURRENT_LIST_DIR}/blink.pio)
-
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(bitDogLab 1)
-pico_enable_stdio_usb(bitDogLab 0)
+pico_enable_stdio_uart(bitDogLab 0)
+pico_enable_stdio_usb(bitDogLab 1)
 
 # Add the standard library to the build
 target_link_libraries(bitDogLab
@@ -56,11 +53,14 @@ target_include_directories(bitDogLab PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
 )
 
+target_sources(bitDogLab PRIVATE 
+    inc/ssd1306_i2c.c  # 🛠️ Caminho correto do arquivo .c
+)
+
 # Add any user requested libraries
 target_link_libraries(bitDogLab 
         hardware_i2c
-        hardware_pio
-        
+        hardware_adc
         )
 
 pico_add_extra_outputs(bitDogLab)
