@@ -4,8 +4,8 @@
   "compiler.optimization_flags": "",
   "customBuildProperties": "",
   "fqbn": "arduino:avr:uno",
-  "hardwareFolders": "C:\\Users\\cafta\\AppData\\Local\\Arduino15\\packages",
-  "otherLibrariesFolders": "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries",
+  "hardwareFolders": "C:\\Users\\morel\\AppData\\Local\\Arduino15\\packages",
+  "otherLibrariesFolders": "C:\\Users\\morel\\OneDrive\\Documentos\\Arduino\\libraries",
   "runtime.ide.version": "10607",
-  "sketchLocation": "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino"
+  "sketchLocation": "D:\\github\\PUC\\Seguidor_de_linha\\arduino"
 }
