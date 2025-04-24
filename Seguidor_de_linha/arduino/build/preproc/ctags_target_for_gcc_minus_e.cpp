@@ -1,4 +1,4 @@
-# 1 "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\arduino.ino"
+# 1 "D:\\github\\PUC\\Seguidor_de_linha\\arduino\\arduino.ino"
 void setup() {
     pinMode(13, 0x1);
   }

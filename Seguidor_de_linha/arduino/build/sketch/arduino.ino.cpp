@@ -1,10 +1,10 @@
 #include <Arduino.h>
-#line 1 "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\arduino.ino"
-#line 1 "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\arduino.ino"
+#line 1 "D:\\github\\PUC\\Seguidor_de_linha\\arduino\\arduino.ino"
+#line 1 "D:\\github\\PUC\\Seguidor_de_linha\\arduino\\arduino.ino"
 void setup();
-#line 5 "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\arduino.ino"
+#line 5 "D:\\github\\PUC\\Seguidor_de_linha\\arduino\\arduino.ino"
 void loop();
-#line 1 "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\arduino.ino"
+#line 1 "D:\\github\\PUC\\Seguidor_de_linha\\arduino\\arduino.ino"
 void setup() {
     pinMode(13, OUTPUT);
   }

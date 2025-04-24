@@ -1,5 +1,5 @@
-D:\github\PUC\Seguidor_de_linha\arduino\build\sketch\arduino.ino.cpp.o: \
- D:\github\PUC\Seguidor_de_linha\arduino\build\sketch\arduino.ino.cpp \
+D:\github\PUC\Seguidor_de_linha\arduino\build\core\main.cpp.o: \
+ C:\Users\morel\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.6\cores\arduino\main.cpp \
  C:\Users\morel\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.6\cores\arduino/Arduino.h \
  C:\Users\morel\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.6\cores\arduino/binary.h \
  C:\Users\morel\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.6\cores\arduino/WCharacter.h \
