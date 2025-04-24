@@ -1,4 +1,4 @@
-#line 1 "D:\\github\\PUC\\Seguidor_de_linha\\arduino\\README.md"
+#line 1 "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\README.md"
 <div align="center">
 
 # Robô seguidor de linha 
@@ -19,7 +19,7 @@ Esta é uma pasta pertencente ao projeto [Robô Seguidor de Linha](../../Seguido
 
 O projeto contém dois controladores. O controlador do Robô, com seus sensores, baseado no Arduino UNO (esta pasta) e outro com a placa do BitDogLab, que já vem com vários periféricos e é baseada no controlador Raspberry Pi Pico (na pasta [bitDogLab](../bitDogLab/))
 
-A placa BitDogLab é responsável pelo gerenciamento dos comandos e interface do usuário. 
+gbas A placa BitDogLab é responsável pelo gerenciamento dos comandos e interface do usuário. 
 
 A comunicação entre as placas se dá através do protocolo I2C.
 

@@ -2,15 +2,40 @@
   {
     "Sourcefile": null,
     "Include": "",
-    "Includepath": "C:\\Users\\morel\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\cores\\arduino"
+    "Includepath": "C:\\Users\\cafta\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\cores\\arduino"
   },
   {
     "Sourcefile": null,
     "Include": "",
-    "Includepath": "C:\\Users\\morel\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\variants\\standard"
+    "Includepath": "C:\\Users\\cafta\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\variants\\standard"
   },
   {
-    "Sourcefile": "D:\\github\\PUC\\Seguidor_de_linha\\arduino\\build\\sketch\\arduino.ino.cpp",
+    "Sourcefile": "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\build\\sketch\\arduino.ino.cpp",
+    "Include": "FalconRobot.h",
+    "Includepath": "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src"
+  },
+  {
+    "Sourcefile": "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\build\\sketch\\arduino.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src\\FalconRobotButton.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src\\FalconRobotDistanceSensor.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src\\FalconRobotLineSensor.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src\\FalconRobotMotors.cpp",
     "Include": "",
     "Includepath": null
   }
