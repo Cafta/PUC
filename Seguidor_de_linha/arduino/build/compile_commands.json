@@ -117,11 +117,11 @@
    "-IC:\\Users\\cafta\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\cores\\arduino",
    "-IC:\\Users\\cafta\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\variants\\standard",
    "-IC:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src",
-   "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src\\FalconRobotLineSensor.cpp",
+   "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src\\FalconRobotMotors.cpp",
    "-o",
-   "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\build\\libraries\\RoboCore_-_Falcon_Robot\\FalconRobotLineSensor.cpp.o"
+   "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\build\\libraries\\RoboCore_-_Falcon_Robot\\FalconRobotMotors.cpp.o"
   ],
-  "file": "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src\\FalconRobotLineSensor.cpp"
+  "file": "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src\\FalconRobotMotors.cpp"
  },
  {
   "directory": "c:\\GitHub\\PUC\\Seguidor_de_linha\\arduino",
@@ -148,10 +148,10 @@
    "-IC:\\Users\\cafta\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\cores\\arduino",
    "-IC:\\Users\\cafta\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\variants\\standard",
    "-IC:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src",
-   "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src\\FalconRobotMotors.cpp",
+   "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src\\FalconRobotLineSensor.cpp",
    "-o",
-   "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\build\\libraries\\RoboCore_-_Falcon_Robot\\FalconRobotMotors.cpp.o"
+   "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\build\\libraries\\RoboCore_-_Falcon_Robot\\FalconRobotLineSensor.cpp.o"
   ],
-  "file": "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src\\FalconRobotMotors.cpp"
+  "file": "C:\\Users\\cafta\\OneDrive\\Documents\\Arduino\\libraries\\RoboCore_-_Falcon_Robot\\src\\FalconRobotLineSensor.cpp"
  }
 ]

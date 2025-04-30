@@ -63,7 +63,6 @@ void setup() {
 }
 
 void loop() {
-
   // Read the sensors
   leftValue = left.read();
   rightValue = right.read();
