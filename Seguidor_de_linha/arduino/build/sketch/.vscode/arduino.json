@@ -1,7 +1,0 @@
-#line 1 "C:\\GitHub\\PUC\\Seguidor_de_linha\\arduino\\.vscode\\arduino.json"
-{
-    "sketch": "arduino.ino",
-    "board": "arduino:avr:uno",
-    "port": "COM5",
-    "output": "./build"
-}
