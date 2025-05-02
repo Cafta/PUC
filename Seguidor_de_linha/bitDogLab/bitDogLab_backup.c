@@ -6,16 +6,14 @@
 #include <string.h>
 #include "hardware/adc.h"
 
-
 // I2C defines
 // This example will use I2C0 on GPIO8 (SDA) and GPIO9 (SCL) running at 400KHz.
 // Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments
 
-#define I2C_PORT_DISPLAY i2c0
 #define SSD1306_I2C_ADDR 0x3C
+#define I2C_PORT i2c0
 #define I2C_SDA 14
 #define I2C_SCL 15
-#define I2C_ADDR 0x08
 #define VRY_PIN 27
 #define VRX_PIN 26
 #define SW_PIN 22
@@ -176,24 +174,8 @@ int8_t escolhendo(int8_t option) {
     return option;
 }
 
-int8_t mensagem_arduino(){
-    int8_t buf[3];
-    i2c_read_blocking(I2C_PORT_DISPLAY, I2C_ADDR, (uint8_t *)buf, sizeof(buf), false);
-    if(buf[0] == 1){
-        //verificar se chegou a mensagem correta
-    }
-    
-    if(buf[1] == 2){
-        //verificar se chegou a mesagem correta
-    }
-
-    if(buf[2] == 3){
-        //verificar se chegou a mensagem correta
-    }
-}
-
 int estado(bool escolha){
-    mensagem_arduino(); //I2C com o ARDUINO
+    //I2C com o ARDUINO
     if (escolha == false){
         return selecionar_opcao;
     }
