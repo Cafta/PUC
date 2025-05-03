@@ -174,10 +174,10 @@ int8_t escolhendo(int8_t option) {
     return option;
 }
 
-int estado(bool escolha){
+int8_t estado(bool navegacaoDecisao, bool alarme){
     //I2C com o ARDUINO
-    if (escolha == false){
-        return selecionar_opcao;
+    if (navegacaoDecisao == true){
+        return 1;
     }
     else{
         return 0;
@@ -185,7 +185,7 @@ int estado(bool escolha){
 }
 
 void DISPLAY() {
-
+    int8_t estado_carrinho = estado(gpio_get(19), gpio_get(18));
     if (estado_carrinho == selecionar_opcao){
         char buffer[22];
         char cabecalho[] = "   Mova o joystick   ";
