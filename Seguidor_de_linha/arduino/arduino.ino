@@ -18,6 +18,7 @@
 uint8_t ultimaVelocidade[] = {0, 0}; // {esq, dir} | Última velocidade dos motores 
 uint8_t ultimaLeitura[] = {0, 0}; // {esq, dir} | Última leitura dos sensores
 Modos modo = NAVEGACAO; // Existe NAVEGACAO e DECISAO
+Estados estadoDeDecisao = ANDANDO; // Estados de decisão
 uint8_t naLinha[] = {0, 0}; // {esq, dir} | 0 = fora da linha, 1 = na linha
 uint8_t speed[] = {0, 0}; // {esq, dir} | velocidade dos motores
 uint8_t flag_parado[] = {0, 0}; // Flag para indicar se o motor está parado
@@ -59,25 +60,73 @@ void loop() {
 }
 
 void decide() {
+  // ATUALIZANDO (PAREI AQUI)
+  if (estadoDeDecisao == ESTACAO) {
+    return; // Não faz nada, espera decisão do BitDogLab
+  } else if (estadoDeDecisao == ANDANDO) {
+    andaLentamente(); 
+    lerSensores(); 
+    if (naLinha[ESQUERDA] == 1 && naLinha[DIREITA] == 1) {
+      estadoDeDecisao = ESTACAO; 
+    } else if (naLinha[ESQUERDA] == 0 && naLinha[DIREITA] == 0) {
+      // Recupera última leitura dos sensores
+      if (ultimaLeitura[ESQUERDA] == 1 && ultimaLeitura[DIREITA] == 0) {
+        procurarLinha(ESQUERDA); // Procura linha à esquerda
+      } else {
+        procurarLinha(DIREITA); // Procura linha à direita
+      }
+      estadoDeDecisao = ANDANDO; // Retorna para o estado de decisão
+      modo = NAVEGACAO; // Retorna para o modo de navegação
+    }
+  }
+}
 
+void procurarLinha(Movimento lado) {
+  // Lê os sensores (atualiza os valores de naLinha[])
+  uint8_t achou = 0;
+  uint8_t n_de_procuras = 0;
+
+  // DEFINE O MOVIMENTO DOS MOTORES DEPENDENDO DO LADO
+  rodaCarrinho(lado, 0.4);
+  vel_motor(); // Atualiza a velocidade dos motores
+  uint32_t start = millis(); // Marca o tempo de início
+  uint32_t tempo_de_procura = 3000; // Tempo de procura em milissegundos
+
+  while (achou == 0) {
+    lerSensores(); // Lê os sensores
+    if (start + tempo_de_procura < millis()) {
+      // Se o tempo de procura para este lado acabou
+      lado = (lado == ESQUERDA) ? DIREITA : ESQUERDA; // Muda o lado
+      rodaCarrinho(lado, 0.4); // Liga os motores para o outro lado
+      start = millis(); // Reinicia o tempo
+      tempo_de_procura *= 2; // agora o tempo de procura pro outro lado é o dobro para voltar o que já foi
+      vel_motor(); // Atualiza a velocidade dos motores
+      n_de_procuras++;
+    }
+    if (n_de_procuras >= 2) {
+      setMotor(TODOS, 0); // Desliga os motores
+      bitDogLab_set(ERRO); // envia comando de erro para o bitDogLab
+      break;
+    }
+    // Se chegou até aqui é porque ainda está procurando a linha
+    if (naLinha[ESQUERDA] == 1 || naLinha[DIREITA] == 1) {
+      // Encontrou a linha
+      achou = 1; // Marca que encontrou a linha
+    }
+  }
 }
 
 void lerSensores() {
-
-// Atualiza a ultima leitura dos sensores a não ser que seja {0, 0} ou {1, 1}
-// utilizado em decide(); para que lado procurar a linha?;
-if (ultimaLeitura[ESQUERDA] != 0 || ultimaLeitura[DIREITA] != 0) {
-  ultimaLeitura[ESQUERDA] = naLinha[ESQUERDA];
-  ultimaLeitura[DIREITA] = naLinha[DIREITA];   
-}
+  // Atualiza a ultima leitura dos sensores a não ser que seja {0, 0} ou {1, 1}
+  // utilizado em decide(); para que lado procurar a linha?;
+  if (ultimaLeitura[ESQUERDA] != 0 || ultimaLeitura[DIREITA] != 0) {
+    ultimaLeitura[ESQUERDA] = naLinha[ESQUERDA];
+    ultimaLeitura[DIREITA] = naLinha[DIREITA];   
+  }
 
   // Lê os sensores (atualiza os valores de naLinha[])
   naLinha[ESQUERDA] = left.read();
   naLinha[DIREITA] = right.read();
-
-  // Atualiza a ultima leitura dos sensores
-  // utilizado em decide(); para que lado procurar a linha?;
-
 
   // Serial.print("Sensor E: "); 
   // Serial.print(left.check());
@@ -85,7 +134,14 @@ if (ultimaLeitura[ESQUERDA] != 0 || ultimaLeitura[DIREITA] != 0) {
   // Serial.println(right.check());
 }
 
-
+void andaLentamente() {
+  // Liga os motores com velocidade 10
+  setMotor(TODOS, 10); // Liga o motor
+  // anda por 100ms
+  delay(DELAY_DE_RASTREAMENTO); // O suficiente para sair da inercia
+  // Desliga os motores
+  setMotor(TODOS, 0); // Desliga os motores
+}
 
 // /**
 //  * @brief Não utilizado, seria para diminuir o ruído do sensor
@@ -138,7 +194,11 @@ void vel_motor() {
     speed[ESQUERDA] = 0;
     speed[DIREITA] = 0;
     bitDogLab_set(ALARME); // Ativa alarme
-  } 
+  } else if (flag_alarme) {
+    // Se o alarme estiver ativado e não houver objeto na frente, desative o alarme
+    bitDogLab_set(DESALARMAR); // Desativa alarme
+    flag_alarme = 0; // Desativa alarme
+  }
 
   for (uint8_t i = 0; i < 2; i++) {
     if (ultimaVelocidade[i] == 0) {
@@ -162,14 +222,21 @@ int8_t botaoPressionado(int8_t botao) {
   return 0; // Botão não pressionado
 }
 
-void bitDogLab_set(comandos comando) {
+void bitDogLab_set(Comandos comando) {
   // Envia comando para o bitDogLab
+  // INTEGRAÇÃO COM MURILO
   if (comando == ALARME && flag_alarme == 0) {
     flag_alarme = 1; // Ativa alarme
     Serial.println("ALARME ATIVADO!");
   } else if (comando == DESALARMAR && flag_alarme == 1) {
     flag_alarme = 0; // Desativa alarme
     Serial.println("ALARME DESATIVADO!");
+  } else if (comando == ERRO) {
+    Serial.println("ERRO: Não consegui encontrar a linha!");
+    modo = DECISAO; // Muda para modo de decisão
+    estadoDeDecisao = ESTACAO; // Neste estado para e fica aguardando o bitDogLab
+  } else {
+    Serial.println("Comando inválido!");
   }
 }
 
@@ -187,5 +254,16 @@ void setMotor(int motor, int speed) {
   } else {
     motors.leftDrive(speed, FORWARD);
     motors.rightDrive(speed, FORWARD);
+  }
+}
+
+void rodaCarrinho(Movimento lado, uint8_t decimalDaVelocidade) {
+  // Liga os motores para o lado especificado
+  if (lado == ESQUERDA) {
+    speed[ESQUERDA] = DEFAULT_SPEED * (1 + decimalDaVelocidade);; // Aumenta velocidade do motor esquerdo
+    speed[DIREITA] = DEFAULT_SPEED * (1 - decimalDaVelocidade); // Reduz velocidade do motor direito
+  } else if (lado == DIREITA) {
+    speed[ESQUERDA] = DEFAULT_SPEED * (1 - decimalDaVelocidade); // Reduz velocidade do motor esquerdo
+    speed[DIREITA] = DEFAULT_SPEED * (1 + decimalDaVelocidade);; // Aumenta velocidade do motor direito
   }
 }
