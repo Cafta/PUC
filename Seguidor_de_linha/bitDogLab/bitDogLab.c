@@ -83,12 +83,14 @@ void alarmeEstado_init(){
     gpio_init(9);
     gpio_init(18);
     gpio_init(19);
+    //gpio_init(20); ALTEREI
     gpio_init(12);
     gpio_init(13);
     gpio_set_dir(8, GPIO_OUT);
     gpio_set_dir(9, GPIO_OUT);
     gpio_set_dir(18, GPIO_IN);
     gpio_set_dir(19, GPIO_IN);
+    //gpio_set_dir(20, GPIO_IN); ALTEREI
     gpio_set_dir(12, GPIO_OUT);
     gpio_set_dir(13, GPIO_OUT);
     gpio_pull_down(18);
@@ -190,13 +192,68 @@ int8_t escolhendo(int8_t option) {
     return option;
 }
 
+bool botao_pressionado(bool flag){
+    if(gpio_get(20) == 1 && flag == false){
+        sleep_ms(250);
+        return 1;
+    }
+    return 0;    
+}
+
+/////////////////////////////////////////////////////////////////////// TESTAAAAAAAAAAAAAAAAANDO
+void calibração(){
+
+    int8_t contador = 0;
+    bool flag = false;
+
+    while(contador <= 2) {
+        bool botao = botao_pressionado(flag);
+        if(botao == 1 && flag == false){
+            contador += 1;
+            flag = true;
+        }
+
+        if(contador == 0){
+            //PRINTAR "Coloque os sensores fora da linha e pressione o botao"
+            char cabecalhoPt1[] = " Coloque os sensores ";
+            oled_draw_string(ssd, 0, 12, cabecalhoPt1, false);
+            char cabecalhoPt2[] = "   fora da linha e   ";
+            oled_draw_string(ssd, 0, 20, cabecalhoPt2, false);
+            char cabecalhoPt3[] = "  pressione o botao  ";
+            oled_draw_string(ssd, 0, 28, cabecalhoPt3, false);
+            render_on_display(ssd, &frame_area);
+        }
+        
+        if(contador == 1){
+            //PRINTAR "Agora posicione os sensores sobre a linha e pressione o botao"
+            char cabecalhoPt12[] = "  Agora posicione os ";
+            oled_draw_string(ssd, 0, 12, cabecalhoPt12, false);
+            char cabecalhoPt22[] = "   sensores sobre a  ";
+            oled_draw_string(ssd, 0, 20, cabecalhoPt22, false);
+            char cabecalhoPt32[] = "  linha e pressione  ";
+            oled_draw_string(ssd, 0, 28, cabecalhoPt32, false);
+            char cabecalhoPt42[] = "       o botao       ";
+            oled_draw_string(ssd, 0, 36, cabecalhoPt42, false);
+            render_on_display(ssd, &frame_area);
+            flag = false;
+        }
+    }
+    flag = false;
+    //PRINTAR "Calibracao concluida"
+    char cabecalhoPt123[] = "Calibragem concluida!";
+    oled_draw_string(ssd, 0, 24, cabecalhoPt123, false);
+    render_on_display(ssd, &frame_area);
+}
+/////////////////////////////////////////////////////////////////////// TESTAAAAAAAAAAAAAAAAANDO
+
 int8_t estado(){
     //I2C com o ARDUINO
     bool navegacaoDecisao = gpio_get(19);
-    if (navegacaoDecisao == 0){
+    bool excessao = gpio_get(20); // ALTEREI
+    if (navegacaoDecisao == 0 && excessao == 0){ // ALTEREI
         return 1;
     }
-    else{
+    else if (navegacaoDecisao == 1 && excessao == 0){ // ALTEREI
         return 0;
     }
 }
@@ -308,9 +365,9 @@ void DISPLAY() {
         memset(ssd, 0, ssd1306_buffer_length);
         oled_draw_string(ssd, 0, 16, cabecalho, false);
         render_on_display(ssd, &frame_area);
-        if(gpio_get(18) == 1){
-            alarme();
-        }
+        //if(gpio_get(18) == 1){ ALTEREI
+        alarme();
+        //} ALTEREI
         //sleep_ms(5000);
         //estado_carrinho = 1;
     }
