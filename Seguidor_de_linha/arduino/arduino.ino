@@ -1,34 +1,22 @@
 /*******************************************************************************
-* Exp4_2_LineFollowing -- Falcon Robot Experiment 4.2
+* Arquivo principal da placa Arduino Julieta (RoboCore) do projeto de navegação do robô Falcon
+*                      PUC Campinas - Maio 2025
 *
-* This code reads the two line following sensors on A2 and A3
-* and prints them out to the Serial Monitor. Upload this example to your
-* Falcon Robot and open up the Serial Monitor by clicking the magnifying glass
-* in the upper-right hand corner.
+*             Disciplina: Veículos Autônomos - 2025/1
+*             Experimento - Navegação com Seguidor de Linha
+*             Professor: Dr. EVERTON DIAS DE OLIVEIRA
 *
-* This is a real simple example of a line following algorithm. It has
-* a lot of room for improvement, but works fairly well for a curved track.
-* It does not handle right angles reliably -- maybe you can come up with a
-* better solution?
-*
-* Hardware setup:
-* The Line Sensors must be connected to pins A2 and A3 (left and right sensor,
-* respectively). The motors must be connected, and the board must be receiving
-* power from the battery pack.
-*
-* This sketch was written by RoboCore, with lots of help from the Arduino
-* community(especially from Sparkfun). This code is completely free for any use.
-*
-* Visit https://www.robocore.net/tutoriais/kit-iniciante-robotica-introducao
-* for Falcon Robot Kit Information
-*
-* 20 Jul 2017 MarceloFariaz
+*    Grupo 11:
+*    Alunos: Carlos Amaral
+*            Gabriel Morelli
+*            Guilherme Talman
+*            Murilo Trevisan
 *******************************************************************************/
-
-#include "arduino.h"
+#include "arduino.h"  // Arquivo de cabeçalho do Projeto
 
 // Variáveis Globais
-uint8_t ultimaVelocidade[] = {0, 0}; // Existe FRENTE, ESQUERDA, DIREITA e PARADO
+uint8_t ultimaVelocidade[] = {0, 0}; // {esq, dir} | Última velocidade dos motores 
+uint8_t ultimaLeitura[] = {0, 0}; // {esq, dir} | Última leitura dos sensores
 Modos modo = NAVEGACAO; // Existe NAVEGACAO e DECISAO
 uint8_t naLinha[] = {0, 0}; // {esq, dir} | 0 = fora da linha, 1 = na linha
 uint8_t speed[] = {0, 0}; // {esq, dir} | velocidade dos motores
@@ -71,11 +59,25 @@ void loop() {
 }
 
 void decide() {
+
 }
 
 void lerSensores() {
+
+// Atualiza a ultima leitura dos sensores a não ser que seja {0, 0} ou {1, 1}
+// utilizado em decide(); para que lado procurar a linha?;
+if (ultimaLeitura[ESQUERDA] != 0 || ultimaLeitura[DIREITA] != 0) {
+  ultimaLeitura[ESQUERDA] = naLinha[ESQUERDA];
+  ultimaLeitura[DIREITA] = naLinha[DIREITA];   
+}
+
+  // Lê os sensores (atualiza os valores de naLinha[])
   naLinha[ESQUERDA] = left.read();
   naLinha[DIREITA] = right.read();
+
+  // Atualiza a ultima leitura dos sensores
+  // utilizado em decide(); para que lado procurar a linha?;
+
 
   // Serial.print("Sensor E: "); 
   // Serial.print(left.check());
@@ -98,7 +100,7 @@ void lerSensores() {
 // }
 
 
-void navegar(int esq, int dir) {
+void navegar() {
   lerSensores();
 
   if (naLinha[ESQUERDA] == 0 && naLinha[DIREITA] == 0) {
