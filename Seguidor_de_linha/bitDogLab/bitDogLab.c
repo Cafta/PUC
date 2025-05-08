@@ -4,8 +4,8 @@
 #include "hardware/regs/i2c.h"
 
 #define I2C_PORT       i2c0
-#define SDA_PIN        4       // GP4 = SDA
-#define SCL_PIN        5       // GP5 = SCL
+#define SDA_PIN        0       // GP4 = SDA
+#define SCL_PIN        1       // GP5 = SCL
 #define SLAVE_ADDRESS  0x08
 
 int main() {
