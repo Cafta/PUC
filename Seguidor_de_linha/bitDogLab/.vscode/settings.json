@@ -38,6 +38,9 @@
     "raspberry-pi-pico.ninjaPath": "${HOME}/.pico-sdk/ninja/v1.12.1/ninja",
     "files.associations": {
         "font6x8_com_pos_espaco.h": "c",
-        "cstdint": "c"
+        "cstdint": "c",
+        "stdlib.h": "c",
+        "i2c.h": "c",
+        "string.h": "c"
     }
 }

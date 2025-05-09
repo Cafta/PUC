@@ -50,11 +50,12 @@ target_link_libraries(bitDogLab
 
 # Add the standard include files to the build
 target_include_directories(bitDogLab PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/inc
 )
 
 target_sources(bitDogLab PRIVATE 
-    inc/ssd1306_i2c.c  # 🛠️ Caminho correto do arquivo .c
+    inc/ssd1306_i2c.c
+    inc/i2c_slave.c  # 🛠️ Caminho correto do arquivo .c
 )
 
 # Add any user requested libraries
