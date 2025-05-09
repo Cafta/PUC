@@ -26,17 +26,17 @@ int main() {
     i2c_set_slave_mode(I2C_PORT, true, SLAVE_ADDRESS);
 
     // 5) Habilita apenas as interrupções de “RD_REQ” e “STOP_DET”
-    //    (RD_REQ = mestre pediu leitura; STOP_DET = fim de transação)
+    // 5) Habilita apenas as interrupções de “RD_REQ” e “STOP_DET”
     i2c_get_hw(I2C_PORT)->intr_mask =
-        I2C_IC_INTR_RD_REQ_BITS_MASK   |
-        I2C_IC_INTR_STOP_DET_BITS_MASK;
+    I2C_IC_INTR_MASK_M_RD_REQ_BITS |
+    I2C_IC_INTR_MASK_M_STOP_DET_BITS;
 
     // 6) Loop principal: fica “pollando” as flags de interrupção
+    uint32_t status = i2c_get_hw(I2C_PORT)->intr_stat;
     while (true) {
-        uint32_t status = i2c_get_hw(I2C_PORT)->intr_stat;
 
         // Mestre solicitou leitura?
-        if (status & I2C_IC_INTR_RD_REQ_BITS_MASK) {
+        if (status & I2C_IC_INTR_STAT_R_STOP_DET_BITS) {
             const char msg[] = "resposta";
             // Enfileira cada byte no TX FIFO
             for (size_t i = 0; i < sizeof(msg) - 1; ++i) {
@@ -45,12 +45,12 @@ int main() {
         }
     }
     // Limpa flag de STOP (para poder recomeçar próxima transação)
-    if (status & I2C_IC_INTR_STOP_DET_BITS_MASK) {
-        i2c_get_hw(I2C_PORT)->clr_intr = I2C_IC_CLR_STOP_DET_BITS_MASK;
+    if (status & I2C_IC_INTR_STAT_R_STOP_DET_BITS) {
+        i2c_get_hw(I2C_PORT)->clr_stop_det;
     }
 
-    // Limpa quaisquer outras flags ativas
-    i2c_get_hw(I2C_PORT)->clr_intr = status;
+    // Limpa todas as flags pendentes (se quiser)
+    (void)i2c_get_hw(I2C_PORT)->clr_intr;
 
     return 0;
 }

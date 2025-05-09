@@ -1,0 +1,1 @@
+enum Comandos { ALARME, DESALARMAR, ERRO }; // Comandos para o bitDogLab
