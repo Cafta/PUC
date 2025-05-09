@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2021 Valentin Milea <valentin.milea@gmail.com>
  *
@@ -109,3 +110,4 @@ int main() {
     setup_slave();
     //run_master();
 }
+
