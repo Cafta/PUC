@@ -8,7 +8,7 @@ enum Estados { ESTACAO, ANDANDO }; // Estados de decisão
 Modos modo = DECISAO;
 Estados estadoDeDecisao = ESTACAO;
 
-LiquidCrystal lcd(12, 11, 1, 4, 10, 9);
+LiquidCrystal lcd(12, 11, 13, 4, 10, 9);
 
 uint8_t ultimaVelocidade[] = {0, 0}; // {esq, dir} | Última velocidade dos motores 
 uint8_t ultimaLeitura[] = {0, 0}; // {esq, dir} | Última leitura dos sensores
@@ -30,8 +30,8 @@ void setup() {
   lcd.begin(16,2);
   //Serial.begin(9600);
   
-  pinMode(2, INPUT);
-  pinMode(3, OUTPUT);
+  pinMode(2, INPUT);  // QUE PINO É ESSE? VEM DO SENSOR DE DISTÂNCIA
+  pinMode(3, OUTPUT); // QUE PINO É ESSE? VEM DO SENSOR DE DISTÂNCIA
   pinMode(A0, INPUT_PULLUP);
   pinMode(A1, INPUT_PULLUP);
   
