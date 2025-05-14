@@ -20,8 +20,8 @@ FalconRobotLineSensor right(A2);
 FalconRobotMotors motors(5, 7, 6, 8);
 
 // Software definitions
-#define DEFAULT_SPEED 40 // Speed for the motors
-#define DELAY_DE_RASTREAMENTO 200 // Delay for tracking (in ms)
+#define DEFAULT_SPEED 50 // Speed for the motors
+#define DELAY_DE_RASTREAMENTO 100 // Delay for tracking (in ms)
 // #define NUM_AMOSTRAS 5 // Não usado => Number of samples for averaging sensor readings
 
 // Define constants
@@ -39,10 +39,9 @@ void setMotor(int motor, int speed); // não verifica nada, só muda a velocidad
 uint8_t objetoNaVia();
 int mediaLeitura(int pino);
 int8_t botaoPressionado(int8_t botao);
-void power_speed(uint8_t roda, uint8_t velocidade);
+void power_speed(int8_t roda, uint8_t velocidade);
 void bitDogLab_set(Comandos comando);
 void andaLentamente(Movimento lado);
 void decide();
 void procurarLinha(Movimento lado);
 void rodaCarrinho(Movimento lado, uint8_t decimalDaVelocidade); // roda o carrinho para um lado
-void display(char linha1[16], char linha2[16]); // Display function

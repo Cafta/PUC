@@ -66,7 +66,7 @@ void loop() {
   if (modo == NAVEGACAO) {
     navegar();
   } else { // modo == DECISAO
-    decide();
+    // decide();
     Serial.println("Entrou modo Decisao. Volte para o moda navegação apertando Btn0");
     while (!botaoPressionado(BOTAO1_USUARIO));  // Espera usuário confirmar
     modo = NAVEGACAO; // Retorna para o modo de navegação
@@ -76,33 +76,22 @@ void loop() {
 
 void decide() {
   Serial.println("Modo de decisão: ");
-  display("Modo de decisao", "verificando cod");
-  setMotor(TODOS, 0); // Desliga os motores
-  
   if (estadoDeDecisao == ESTACAO) {
-    display("Modo de decisao", "ESTACAO...     ");
-    while (!botaoPressionado(BOTAO1_USUARIO));
     return; // Não faz nada, espera decisão do BitDogLab
   } else if (estadoDeDecisao == ANDANDO) {
     andaLentamente(); 
     lerSensores(); 
     if (naLinha[ESQUERDA] == 1 && naLinha[DIREITA] == 1) {
-      display("Modo de decisao", "ESTACAO...     ");
-      while (!botaoPressionado(BOTAO1_USUARIO));
-      // estadoDeDecisao = ESTACAO; 
-    } else { //if (naLinha[ESQUERDA] == 0 && naLinha[DIREITA] == 0) {
-      display("Modo de decisao", "PROCURA...     ");
-      // while (!botaoPressionado(BOTAO1_USUARIO));
+      estadoDeDecisao = ESTACAO; 
+    } else if (naLinha[ESQUERDA] == 0 && naLinha[DIREITA] == 0) {
       // Recupera última leitura dos sensores
       if (ultimaLeitura[ESQUERDA] == 1 && ultimaLeitura[DIREITA] == 0) {
-              display("Modo de decisao", "PROCURA... ESQ ");
         procurarLinha(ESQUERDA); // Procura linha à esquerda
       } else {
-        display("Modo de decisao", "PROCURA... DIR ");
         procurarLinha(DIREITA); // Procura linha à direita
       }
-      // estadoDeDecisao = ANDANDO; // Retorna para o estado de decisão
-      // modo = NAVEGACAO; // Retorna para o modo de navegação
+      estadoDeDecisao = ANDANDO; // Retorna para o estado de decisão
+      modo = NAVEGACAO; // Retorna para o modo de navegação
     }
   }
 }
@@ -161,15 +150,12 @@ void lerSensores() {
 }
 
 void andaLentamente() {
-  setMotor(TODOS, 0); // Desliga os motores
-  delay(500); 
-  power_speed(TODOS, 25); // Liga o motor esquerdo com velocidade 10
   // Liga os motores com velocidade 10
-  // setMotor(TODOS, 10); // Liga o motor
-  delay(DELAY_DE_RASTREAMENTO); 
+  setMotor(TODOS, 10); // Liga o motor
+  // anda por 100ms
+  delay(DELAY_DE_RASTREAMENTO); // O suficiente para sair da inercia
   // Desliga os motores
   setMotor(TODOS, 0); // Desliga os motores
-  // while (!botaoPressionado(BOTAO1_USUARIO)); // Espera usuário confirmar
 }
 
 // /**
@@ -274,30 +260,12 @@ void bitDogLab_set(Comandos comando) {
   }
 }
 
-/**
- * @brief Power the motor to a specific speed CORRECTING
- * @param roda Motor to power (0 = left, 1 = right)
- * @param velocidade Speed to set (0-100)
- */
 void power_speed(uint8_t roda, uint8_t velocidade){
-  if(roda == 2) {
-    setMotor(0, 50); // Liga o motor a 50% de potência para sair da inercia
-    setMotor(1, 50); // Liga o motor a 50% de potência para sair da inercia
-    delay(15); // O suficiente para sair da inercia 
-    setMotor(0, velocidade); // Volta a velocidade solicitada
-    setMotor(1, velocidade); // Volta a velocidade solicitada
-  } else {
-    setMotor(roda, 50); // Liga o motor a 50% de potência para sair da inercia
-    delay(15); // O suficiente para sair da inercia 
-    setMotor(roda, velocidade); // Volta a velocidade solicitada
-  }
+  setMotor(roda, 80); // Liga o motor a 50% de potência para sair da inercia
+  delay(5); // O suficiente para sair da inercia 
+  setMotor(roda, velocidade); // Volta a velocidade solicitada
 }
 
-/**
- * @brief Set the motor speed
- * @param motor Motor to set (0 = left, 1 = right, 2 = both)
- * @param speed Speed to set (0-100)
- */
 void setMotor(int motor, int speed) {
   if (motor == 0) {
     motors.leftDrive(speed, FORWARD); // Liga o motor esquerdo
@@ -312,26 +280,10 @@ void setMotor(int motor, int speed) {
 void rodaCarrinho(Movimento lado, uint8_t decimalDaVelocidade) {
   // Liga os motores para o lado especificado
   if (lado == ESQUERDA) {
-    motors.leftDrive(20, FORWARD); // esquerdo pra frente
-    motors.rightDrive(20, BACKWARD); // direito pra trás
-    // speed[ESQUERDA] = DEFAULT_SPEED * (1 + decimalDaVelocidade);; // Aumenta velocidade do motor esquerdo
-    // speed[DIREITA] = DEFAULT_SPEED * (1 - decimalDaVelocidade); // Reduz velocidade do motor direito
+    speed[ESQUERDA] = DEFAULT_SPEED * (1 + decimalDaVelocidade);; // Aumenta velocidade do motor esquerdo
+    speed[DIREITA] = DEFAULT_SPEED * (1 - decimalDaVelocidade); // Reduz velocidade do motor direito
   } else if (lado == DIREITA) {
-    motors.leftDrive(20, BACKWARD); // esquerdo pra trás
-    motors.rightDrive(20, FORWARD); // direito pra frente 
-    // speed[ESQUERDA] = DEFAULT_SPEED * (1 - decimalDaVelocidade); // Reduz velocidade do motor esquerdo
-    // speed[DIREITA] = DEFAULT_SPEED * (1 + decimalDaVelocidade);; // Aumenta velocidade do motor direito
+    speed[ESQUERDA] = DEFAULT_SPEED * (1 - decimalDaVelocidade); // Reduz velocidade do motor esquerdo
+    speed[DIREITA] = DEFAULT_SPEED * (1 + decimalDaVelocidade);; // Aumenta velocidade do motor direito
   }
-}
-
-/**
- * @brief Display function to show messages on the LCD
- * @param show 2D array of characters to display
- */
-void display(char linha1[16], char linha2[16]) {
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print(linha1);
-  lcd.setCursor(0, 1);
-  lcd.print(linha2);
 }
