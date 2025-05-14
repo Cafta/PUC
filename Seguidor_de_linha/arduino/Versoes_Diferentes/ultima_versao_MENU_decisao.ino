@@ -53,6 +53,14 @@ void setup() {
 int8_t botaoPressionado(int botao) {
   // Verifica se o botão foi pressionado
   if (digitalRead(botao) == LOW){ //&& solta == false) {
+
+    int tempo = millis();
+    while(millis() - tempo < 100){
+      if(digitalRead(A0) == LOW && digitalRead(A1) == LOW){// && millis() - tempo <= 300){
+        return 3;
+      }
+    }
+    
     if(digitalRead(A0) == HIGH && digitalRead(A1) == LOW){// && flag == false){
     opcao++;
     if(opcao >= 4){
@@ -65,7 +73,7 @@ int8_t botaoPressionado(int botao) {
       opcao = 1;
     }
   }
-  delay(250);
+  delay(150);
   return 1;
   }
   else if (digitalRead(botao) == HIGH){
@@ -89,16 +97,20 @@ void decisao(){
     lcd.setCursor(0, 0);
     lcd.print("Opcoes: 1 2 3 4 ");
     while(true){//digitalRead(A0) == HIGH || digitalRead(A1) == HIGH){//sair_do_while == false){//)digitalRead(A0) == 0 || digitalRead(A1) == 0){
-  	  botaoPressionado(A0);
+      botaoPressionado(A0);
       botaoPressionado(A1);
       
-      if(digitalRead(A0) == LOW || digitalRead(A1) == LOW){
-        //int tempo = millis();
-        //while(millis() - tempo <= 300){
-        if(digitalRead(A0) == LOW && digitalRead(A1) == LOW){// && millis() - tempo <= 300){
-          break;
+      /*if(digitalRead(A0) == LOW || digitalRead(A1) == LOW){
+        int tempo = millis();
+        while(millis() - tempo < 300){
+          if(digitalRead(A0) == LOW && digitalRead(A1) == LOW){// && millis() - tempo <= 300){
+            break;
           }
-        //}
+        }
+      }*/
+      
+      if(botaoPressionado(A0) == 3 || botaoPressionado(A1) == 3){
+        break;
       }
       
       if(opcao == 1){
