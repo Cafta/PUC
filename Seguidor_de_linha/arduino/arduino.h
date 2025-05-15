@@ -16,7 +16,7 @@
 #define BOTAO2_USUARIO A1 // Button pin
 #define trigPin 3 // pino triger do sensor ultrassonico
 #define echoPin 2 // pino echo do sensor ultrassonico
-LiquidCrystal lcd(12, 11, 13, A4, 10, 9);
+LiquidCrystal lcd(12, 11, A5, A4, 10, 9);
 FalconRobotLineSensor left(A3);
 FalconRobotLineSensor right(A2);
 FalconRobotMotors motors(5, 7, 6, 8);
@@ -42,11 +42,12 @@ bool objetoNaVia();
 int mediaLeitura(int pino);
 int8_t botaoPressionado(int8_t botao);
 void power_speed(uint8_t roda, uint8_t velocidade);
-void bitDogLab_set(Comandos comando);
+// void bitDogLab_set(Comandos comando);
 void andaLentamente(Movimento lado);
 void piscaLed();
 void decisao();
 void decide();
 void procurarLinha(Movimento lado);
-void rodaCarrinho(Movimento lado, uint8_t decimalDaVelocidade); // roda o carrinho para um lado
+void rodaCarrinho(Movimento lado); // roda o carrinho para um lado
+void roda180(); // roda o carrinho 180 graus
 void display(char linha1[16], char linha2[16]); // Display function
