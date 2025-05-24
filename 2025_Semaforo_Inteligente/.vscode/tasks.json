@@ -1,0 +1,12 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Compilar contador",
+      "type": "shell",
+      "command": "g++ src/contador_via_opencv.cpp -o contador `pkg-config --cflags --libs opencv4` -std=c++11",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug ▸ contador",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/contador",
+      "args": [],                // deixe vazio ou coloque vídeo, ex: ["video.mp4"]
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Compilar contador",
+      "MIMode": "gdb"
+    }
+  ]
+}
