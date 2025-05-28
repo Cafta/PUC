@@ -5,6 +5,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <thread>
+#include <atomic>
 
 using namespace cv;
 using namespace cv::dnn;
@@ -63,7 +65,13 @@ std::vector<cv::Point> regiao_vermelha_E = {
     cv::Point(275, 160)
 };
 
-// DECLARAÇÃO DE FUNÇÕES
+// VARIÁVEIS GLOBAIS	
+std::atomic<uint8_t> carros_via_azul(0); // Contador de carros na via azul
+std::atomic<uint8_t> carros_via_vermelha(0); // Contador de carros na via vermelha
+
+// DECLARAÇÃO DE FUNÇÕES / PROTOTIPAGEM
+void iniciarContador();
+float relacaoCarros();
 void desenharRegiao(cv::Mat& frame, const std::vector<cv::Point>& pontos, const cv::Scalar& cor);
 void loadClasses(const string& classesFile);
 std::vector<BoxDetectado> detectarVeiculos(const cv::Mat& frame, float confianca, bool zoom = false, const std::vector<cv::Point>* roi = nullptr);
@@ -87,7 +95,7 @@ int contarNaArea(const std::vector<BoxDetectado>& boxes, const std::vector<cv::P
     return contador;
 }
 
-int main() {
+void loopContagem() {
     loadClasses(classesFile);
 
     net.setPreferableBackend(DNN_BACKEND_OPENCV);
@@ -96,7 +104,7 @@ int main() {
     VideoCapture cap(inputVideo);
     if (!cap.isOpened()) {
         cerr << "Erro ao abrir o vídeo.\n";
-        return -1;
+        return;
     }
 
     Mat frame;
@@ -110,12 +118,13 @@ int main() {
         int nVermelhaD = contarNaArea(boxesZoom, &regiao_vermelha_D, frame, corVermelha);
         int nVermelhaE = contarNaArea(boxesZoom, &regiao_vermelha_E, frame, corVermelha);
 
-        int count_azul = nAzulD + nAzulE;
-        int count_Vermelha = nVermelhaD + nVermelhaE;
+        carros_via_azul = nAzulD + nAzulE;
+        carros_via_vermelha = nVermelhaD + nVermelhaE;
 
-        putText(frame, format("Via Azul: %d", count_azul), Point(400, 40),
+        // MODO VISUAL 
+        putText(frame, format("Via Azul: %d", carros_via_azul.load()), Point(400, 40),
                 FONT_HERSHEY_SIMPLEX, 1, corAzul, 6);
-        putText(frame, format("Via Vermelha: %d", count_Vermelha), Point(400, 80),
+        putText(frame, format("Via Vermelha: %d", carros_via_vermelha.load()), Point(400, 80),
                 FONT_HERSHEY_SIMPLEX, 1, corVermelha, 6);
 
         desenharRegiao(frame, regiao_azul_D, corAzul);
@@ -129,7 +138,6 @@ int main() {
 
     cap.release();
     destroyAllWindows();
-    return 0;
 }
 
 void desenharRegiao(cv::Mat& frame, const std::vector<cv::Point>& pontos, const cv::Scalar& cor) {
@@ -211,4 +219,18 @@ std::vector<BoxDetectado> detectarVeiculos(const cv::Mat& frame, float confianca
     }
 
     return resultados;
+}
+
+float relacaoCarros() {
+    uint8_t totalCarros = carros_via_azul + carros_via_vermelha;
+    if (totalCarros == 0) return (float)0; // Evita divisão por zero
+    
+    float cvv = (float)carros_via_vermelha/(float)totalCarros;
+    float cva = (float)carros_via_azul/(float)totalCarros;
+    return cvv - cva; // Retorna a relação entre os carros das vias, de +1 a -1
+}
+
+void iniciarContador() {
+    std::thread t(loopContagem);
+    t.detach(); // Permite que o loop de contagem rode em segundo plano
 }

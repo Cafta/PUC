@@ -5,7 +5,7 @@
       "name": "Debug ▸ contador",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/contador",
+      "program": "${workspaceFolder}/semaforo",
       "args": [],                // deixe vazio ou coloque vídeo, ex: ["video.mp4"]
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
