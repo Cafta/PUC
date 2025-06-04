@@ -40,5 +40,6 @@
         "font6x8_com_pos_espaco.h": "c",
         "cstdint": "c",
         "i2c.h": "c",
+        "stdlib.h": "c"
     }
 }

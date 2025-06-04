@@ -7,6 +7,7 @@
 
 #include "inc/i2c_fifo.h"
 #include "inc/i2c_slave.h"
+#include "hardware/i2c.h"
 #include <pico/stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -30,13 +31,13 @@ static const uint I2C_SLAVE_SCL_PIN = 1; // 5
 // sequentially from the current memory address.
 static struct
 {
-    uint8_t mem[256];
+    uint8_t mem[3];
     uint8_t mem_address;
     bool mem_address_written;
 } context;
 
-uint8_t leitura = 0;
-uint8_t feedback = 0;
+//uint8_t leitura = 0;
+//uint8_t feedback = 0;
 //const char escrita[] = "funcionou";
 void evento_setup(){
     gpio_init(RED);
@@ -47,7 +48,7 @@ void evento_setup(){
 }
 
 void evento_de_depuracao(){
-    if(leitura == 1){
+    if(context.mem[0] == 1){
         gpio_put(RED, true);
         sleep_ms(250);
         gpio_put(RED, false);
@@ -68,17 +69,17 @@ static void i2c_slave_handler(i2c_inst_t *i2c, i2c_slave_event_t event) {
             context.mem_address_written = true;
         } else {
             // save into memory
-            leitura = i2c_read_byte(i2c);
-            //context.mem[context.mem_address] = i2c_read_byte(i2c);
-            //context.mem_address++;
+            //leitura = i2c_read_byte(i2c);
+            context.mem[context.mem_address] = i2c_read_byte(i2c);
+            context.mem_address++;
             evento_de_depuracao();
         }
         break;
     case I2C_SLAVE_REQUEST: // master is requesting data
         // load from memory
-        feedback = 1;
-        i2c_write_byte(i2c, feedback);
-        //context.mem_address++;
+        //feedback = 1;
+        i2c_write_byte(i2c, context.mem[context.mem_address]);
+        context.mem_address++;
         break;
     case I2C_SLAVE_FINISH: // master has signalled Stop / Restart
         context.mem_address_written = false;

@@ -21,6 +21,9 @@ int8_t auxRes = 0;
 int8_t posicao[] = {0, 1}; // {esq, dir} | Posição do robô
 bool estadoLed = false;
 
+//bool obstaculoDetectado = false;
+bool flagOBJNV = true;
+
 uint8_t ultimaVelocidade[] = {0, 0}; // {esq, dir} | Última velocidade dos motores 
 uint8_t ultimaLeitura[] = {0, 0}; // {esq, dir} | Última leitura dos sensores
 Modos modo = DECISAO; // Existe NAVEGACAO e DECISAO
@@ -40,6 +43,8 @@ void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
+  //attachInterrupt(digitalPinToInterrupt(echoPin), echoISR, CHANGE);
+
   Serial.println("Sensor analógico com filtragem");
   delay(1000);
 
@@ -47,51 +52,54 @@ void setup() {
     
     // Passo 1: Coloque os sensores fora da linha
     Serial.println("Coloque os sensores fora da linha e pressione o botão...");
-    lcd.setCursor(0, 0);
-    lcd.print(" Calibrando...  ");
-    lcd.setCursor(0, 1);
-    lcd.print("Fora linha + B0 ");
-    while (!botaoPressionado(BOTAO1_USUARIO));  // Espera usuário confirmar
-    left.setBGLevel();
-    right.setBGLevel();
+    display(" Calibrando...  ", "Fora linha + B0 ");
+    while (!botaoPressionado(BOTAO1_USUARIO)){
+      left.setBGLevel();
+      right.setBGLevel();
+    }  // Espera usuário confirmar
+    delay(100);
   
     // Passo 2: Coloque os sensores sobre a linha
     Serial.println("Agora posicione os sensores SOBRE a linha e pressione o botão...");
-    lcd.setCursor(0, 1);
-    lcd.print("Na linha + B0   ");
-    while (!botaoPressionado(BOTAO1_USUARIO));  // Espera de novo
-    left.setDetectLevel();
-    right.setDetectLevel();
+    display(" Calibrando...  ", "Na linha + B0   ");
+    while (!botaoPressionado(BOTAO1_USUARIO)){// Espera de novo
+      left.setDetectLevel();
+      right.setDetectLevel();
+    }
   
     Serial.println("Calibração concluída!");
-    lcd.setCursor(0, 0);
-    lcd.print("   Calibrado!   ");
-    lcd.setCursor(0, 1);
-    lcd.print("   ANDANDO...   ");
+
+    display("   Calibrado!   ", "                ");
+    delay(500);
 }
 
 void loop() {
-  if (modo == NAVEGACAO) {
-    int temporizador = millis();
-    if (flag_alarme == true){ // ALARME
-      lcd.setCursor(0, 0);
-      lcd.print("Objeto na via!  ");
-      lcd.setCursor(0, 1);
-      lcd.print("                ");
+  //bool aux = false;
+  /*if(objetoNaVia() == true){//while(objetoNaVia() == true){
+    Serial.println("OBJETO NA VIA");
+    //if(aux == false){
+      display("   OBJETO NA   ","       VIA      ");
+      setMotor(TODOS, 0);
+      //aux = true;
+    //}
+    //delay(1000);
+    //while(objetoNaVia() == true){
 
-      if(millis() - temporizador >= 250){
-        temporizador = millis();
-        piscaLed();
-      }
-    }
+    //}
+  }
+  else{*/
+  display("                ","                ");
+  if (modo == NAVEGACAO) {
     navegar();
-  } else { // modo == DECISAO
+  } 
+  else { // modo == DECISAO
     decide();
     // Serial.println("Entrou modo Decisao. Volte para o moda navegação apertando Btn0");
     // while (!botaoPressionado(BOTAO1_USUARIO));  // Espera usuário confirmar
     modo = NAVEGACAO; // Retorna para o modo de navegação
   }
-  delay(1);
+  //}
+  delay(100);
 }
 
 void decide() {
@@ -120,7 +128,7 @@ void decide() {
       if (ultimaLeitura[ESQUERDA] == 1 && ultimaLeitura[DIREITA] == 0) {
               display("Modo de decisao", "PROCURA... ESQ ");
         procurarLinha(ESQUERDA); // Procura linha à esquerda
-      } else {
+      } else{
         display("Modo de decisao", "PROCURA... DIR ");
         procurarLinha(DIREITA); // Procura linha à direita
       }
@@ -139,7 +147,7 @@ void procurarLinha(Movimento lado) {
 
   // DEFINE O MOVIMENTO DOS MOTORES DEPENDENDO DO LADO
   rodaCarrinho(lado); // Já roda direto para um lado
-  // vel_motor(); // Atualiza a velocidade dos motores
+  //vel_motor(); // Atualiza a velocidade dos motores
 
   while (achou == 0) {
     lerSensores(); // Lê os sensores
@@ -150,7 +158,7 @@ void procurarLinha(Movimento lado) {
       rodaCarrinho(lado); // Liga os motores para o outro lado
       start = millis(); // Reinicia o tempo
       tempo_de_procura *= 2; // agora o tempo de procura pro outro lado é o dobro para voltar o que já foi
-      // vel_motor(); // Atualiza a velocidade dos motores
+      //vel_motor(); // Atualiza a velocidade dos motores
       n_de_procuras++;
     }
     if (n_de_procuras >= 2) {
@@ -246,23 +254,62 @@ void navegar() {
 }
 
 bool objetoNaVia() {
-  // MUDAR
-  return 0; 
+  long duration = 0;
+  int distancia = 0;
+
+  //const int amostras = 5;
+  //int soma = 0;
+
+  //for (int i = 0; i < amostras; i++) {
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+
+    //duration = pulseIn(echoPin, HIGH);
+    //distancia = duration * 0.034 / 2;
+    //delay(10);
+    //soma += distancia;
+  //}
+  
+  /*if(!obstaculoDetectado && distancia < LIMITE_OBSTACULO_ENTRADA){
+    obstaculoDetectado = true;
+  }
+  else if(obstaculoDetectado && distancia < LIMITE_OBSTACULO_SAIDA){
+    obstaculoDetectado = false;
+  }*/
+
+  //int media = soma / amostras;
+
+  //return !obstaculoDetectado;
+  /*if(distancia < limiteDistancia && flagOBJNV == true){
+    flagOBJNV = false;
+    //return true;
+  }
+  else if(distancia > limiteDistancia && flagOBJNV == false){
+    flagOBJNV = true;
+    //return false;
+  }*/
+  //Serial.println(duration);
+  //return duration;
+  //return distancia < limiteDistancia;
 }
 
 void vel_motor() {
-  if (objetoNaVia()) {
+  //Serial.println(objetoNaVia());
+  /*if (objetoNaVia() == 1) {
     // Se o objeto estiver na frente, pare os motores
     speed[ESQUERDA] = 0;
     speed[DIREITA] = 0;
     //bitDogLab_set(ALARME); // Ativa alarme
     display("  ALERTA!!!     ", " OBJETO NA VIA ");
     flag_alarme = 1; // Ativa alarme
-  } else if (flag_alarme) {
+  } else if (flag_alarme == 1){//!objetoNaVia()) {
     // Se o alarme estiver ativado e não houver objeto na frente, desative o alarme
     //bitDogLab_set(DESALARMAR); // Desativa alarme
     flag_alarme = 0; // Desativa alarme
-  }
+  }*/
 
   for (uint8_t i = 0; i < 2; i++) {
     if (ultimaVelocidade[i] == 0) {
@@ -277,29 +324,15 @@ void vel_motor() {
 
 int8_t botaoPressionado(int botao) {
   // Verifica se o botão foi pressionado
-  int tempo = millis();
+  //int tempo = millis();
   if (digitalRead(botao) == LOW){ //&& solta == false) {
-
-    //int tempo = millis();
-    while(millis() - tempo < 200){
-      if(digitalRead(A0) == LOW && digitalRead(A1) == LOW){// && millis() - tempo <= 300){
-        return 3;
-      }
-    }
-    
-    if(digitalRead(A0) == HIGH && digitalRead(A1) == LOW){// && flag == false){
-    opcao++;
-    if(opcao >= 4){
-      opcao = 4;
-    }
-  }
   if(digitalRead(A0) == LOW && digitalRead(A1) == HIGH){// && flag == false){
-    opcao--;
-    if(opcao <= 1){
+    opcao++;
+    if(opcao > 4){
       opcao = 1;
     }
   }
-  delay(150);
+  delay(200);
   return 1;
   }
   else if (digitalRead(botao) == HIGH){
@@ -323,45 +356,32 @@ void decisao(){
   }
   
   if (resultante == 0){ // CASO TENHA ESTEJA NO DESTINO 
-    //lcd.setCursor(0, 0);
-    //lcd.print("Opcoes: 1 2 3 4 ");
-    //display("Opcoes: 1 2 3 4 ", "                ");
     uint8_t last = 0;
     while(true){
       botaoPressionado(A0);
       botaoPressionado(A1);
       
-      if(botaoPressionado(A0) == 3 || botaoPressionado(A1) == 3){
+      if(botaoPressionado(A1) == 1){
         break;
       }
       
       if(opcao == 1 && last != 1){
-        //lcd.setCursor(0, 1);
-        //lcd.print("        ^       ");
         display("Opcoes: 1 2 3 4 ","        ^       ");
         last = 1;
       }
       if(opcao == 2 && last != 2){
-        //lcd.setCursor(0, 1);
-        //lcd.print("          ^     ");
         display("Opcoes: 1 2 3 4 ","          ^     ");
         last = 2;
       }
       if(opcao == 3 && last != 3){
-        //lcd.setCursor(0, 1);
-        //lcd.print("            ^   ");
         display("Opcoes: 1 2 3 4 ","            ^   ");
         last = 3;
       }
       if(opcao == 4 && last != 4){
-        //lcd.setCursor(0, 1);
-        //lcd.print("              ^ ");
         display("Opcoes: 1 2 3 4 ","              ^ ");
         last = 4;
       }
     }
-    
-    display("Seguindo para o ","destino");
 
     posicao[0] = posicao[1];
     posicao[1] = opcao;
@@ -388,6 +408,22 @@ void decisao(){
   }
   
   resultante--;
+  /*if(resultante == 1){
+    display("FALTA UMA", "                ");
+    delay(1500);
+  }
+  else if(resultante == 2){
+    display("FALTA DUAS", "                ");
+    delay(1500);
+  }
+  else if(resultante == 3){
+    display("FALTA TRES", "                ");
+    delay(1500);
+  }
+  else if(resultante == 4){
+    display("FALTA QUATRO", "                ");
+    delay(1500);
+  }*/
   estadoDeDecisao = ANDANDO;
   // modo = NAVEGACAO;
   

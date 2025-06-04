@@ -16,6 +16,9 @@
 #define BOTAO2_USUARIO A1 // Button pin
 #define trigPin 3 // pino triger do sensor ultrassonico
 #define echoPin 2 // pino echo do sensor ultrassonico
+#define limiteDistancia 5
+//#define LIMITE_OBSTACULO_ENTRADA 5  // cm
+//#define LIMITE_OBSTACULO_SAIDA 8    // cm
 LiquidCrystal lcd(12, 11, A5, A4, 10, 9);
 FalconRobotLineSensor left(A3);
 FalconRobotLineSensor right(A2);
