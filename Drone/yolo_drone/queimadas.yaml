@@ -1,0 +1,8 @@
+path: C:/teste_drone/treinando_yolov8/datasets  # dataset root dir
+train: C:/teste_drone/treinando_yolov8/datasets/queimadas/train  # train images (relative to 'path') 128 images
+val: C:/teste_drone/treinando_yolov8/datasets/queimadas/val  # val images (relative to 'path') 128 images
+test:  # test images (optional)
+
+# Classes
+names:
+  0: fogo
