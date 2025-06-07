@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/testa_cuda.dir/src/testa_cuda.cpp.o -o ../testa_cuda   -L/usr/local/lib  -Wl,-rpath,/usr/local/lib /usr/local/lib/libopencv_world.so.4.5.4 

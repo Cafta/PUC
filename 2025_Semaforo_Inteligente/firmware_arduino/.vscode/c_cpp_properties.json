@@ -8,29 +8,29 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "//wsl.localhost/Ubuntu/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/firmware_arduino/include",
-                "//wsl.localhost/Ubuntu/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/firmware_arduino/src",
-                "C:/Users/cafta/.platformio/packages/framework-arduino-avr/cores/arduino",
-                "C:/Users/cafta/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
-                "C:/Users/cafta/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
-                "C:/Users/cafta/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                "C:/Users/cafta/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                "C:/Users/cafta/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                "C:/Users/cafta/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/firmware_arduino/include",
+                "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/firmware_arduino/src",
+                "/home/cafe/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "/home/cafe/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
+                "/home/cafe/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "/home/cafe/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "/home/cafe/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "/home/cafe/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                "/home/cafe/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 ""
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "//wsl.localhost/Ubuntu/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/firmware_arduino/include",
-                    "//wsl.localhost/Ubuntu/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/firmware_arduino/src",
-                    "C:/Users/cafta/.platformio/packages/framework-arduino-avr/cores/arduino",
-                    "C:/Users/cafta/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
-                    "C:/Users/cafta/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
-                    "C:/Users/cafta/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                    "C:/Users/cafta/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                    "C:/Users/cafta/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                    "C:/Users/cafta/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/firmware_arduino/include",
+                    "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/firmware_arduino/src",
+                    "/home/cafe/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "/home/cafe/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
+                    "/home/cafe/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "/home/cafe/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "/home/cafe/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "/home/cafe/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    "/home/cafe/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     ""
                 ]
             },
@@ -45,7 +45,7 @@
             ],
             "cStandard": "gnu11",
             "cppStandard": "gnu++11",
-            "compilerPath": "C:/Users/cafta/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe",
+            "compilerPath": "/home/cafe/.platformio/packages/toolchain-atmelavr/bin/avr-gcc",
             "compilerArgs": [
                 "-mmcu=atmega328p",
                 ""

@@ -1,0 +1,6 @@
+mkdir build
+cd build
+cmake ..
+cd ..
+cmake --build build -j
+LD_LIBRARY_PATH=/usr/local/lib ./contador

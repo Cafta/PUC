@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/testa_comunicacao.dir/src/testa_comunicacao.cpp.o -o ../testa_comunicacao   -L/usr/local/lib 

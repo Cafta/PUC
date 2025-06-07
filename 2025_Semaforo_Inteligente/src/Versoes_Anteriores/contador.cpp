@@ -98,11 +98,8 @@ int contarNaArea(const std::vector<BoxDetectado>& boxes, const std::vector<cv::P
 void loopContagem() {
     loadClasses(classesFile);
 
-    net.setPreferableBackend(DNN_BACKEND_CUDA);
-    net.setPreferableTarget(DNN_TARGET_CUDA);
-
-    // net.setPreferableBackend(DNN_BACKEND_OPENCV);
-    // net.setPreferableTarget(DNN_TARGET_CPU);
+    net.setPreferableBackend(DNN_BACKEND_OPENCV);
+    net.setPreferableTarget(DNN_TARGET_CPU);
 
     VideoCapture cap(inputVideo);
     if (!cap.isOpened()) {

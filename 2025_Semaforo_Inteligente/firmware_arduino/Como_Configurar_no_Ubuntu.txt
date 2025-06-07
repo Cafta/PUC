@@ -1,0 +1,42 @@
+O ubuntu usa Pyhton3.10, mas o platformIO só funciona com python3.6+
+
+OBS: Tem que fazer o abaixo antes de iniciar o VScode.
+Para resolver isso crie um ambiente virtual com os requisitos necessários.
+Toda vez que for utilizar o platformio tem que ativa este ambiente virtual.
+
+## Criar ativar e instalar:
+
+python3 -m venv ~/venv/platformio
+source ~/venv/platformio/bin/activate
+pip install -U pip
+pip install platformio
+
+
+## Apenas para ativar:  (depois de já criado no seu computador)
+
+sudo source ~/venv/platformio/bin/activate
+
+
+##### Para descobrir em qual porta está o arduino
+# Abra o terminal, digite isso e depois conecte o Arduino. O que aparecer "novo" é o arduino
+
+sudo dmesg --follow | grep -i tty
+
+
+
+#### Atenção.... para conseguir acessar as portas seriais, o usuário tem que estar no grupo dialout de permissão.
+
+sudo usermod -aG dialout $USER
+newgrp dialout
+
+
+
+#### OBS: se o brltty estiver "deslogando" o arduíno logo depois que ele loga, desinstale ele.
+
+sudo apt remove brltty
+
+
+
+#### Depois de garantir que tudo está funcinando, só aí, você inicia o VScode já com o venv ativado:
+
+code .
