@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/testa_comunicacao"
-  "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/testa_comunicacao.pdb"
+  "../testa_comunicacao"
+  "../testa_comunicacao.pdb"
   "CMakeFiles/testa_comunicacao.dir/src/testa_comunicacao.cpp.o"
   "CMakeFiles/testa_comunicacao.dir/src/testa_comunicacao.cpp.o.d"
 )

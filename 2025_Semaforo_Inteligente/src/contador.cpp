@@ -7,6 +7,7 @@
 #include <vector>
 #include <thread>
 #include <atomic>
+#include <numeric>
 
 using namespace cv;
 using namespace cv::dnn;
@@ -14,6 +15,9 @@ using namespace std;
 
 // Parâmetros
 float CONFIDENCE_THRESHOLD = 0.25;
+float NMS_THRESHOLD = 0.5;   // 0.3-0.5 (menor = mais rigoroso)
+float SCORE_THRESHOLD = 0.4; // 0.4-0.6 (maior = menos detecções)
+
 vector<string> CLASSES;
 
 string modelConfiguration = "cfg/yolov4-tiny.cfg";
@@ -65,9 +69,43 @@ std::vector<cv::Point> regiao_vermelha_E = {
     cv::Point(275, 160)
 };
 
-// VARIÁVEIS GLOBAIS	
-std::atomic<uint8_t> carros_via_azul(0); // Contador de carros na via azul
-std::atomic<uint8_t> carros_via_vermelha(0); // Contador de carros na via vermelha
+// CLASSE DE OBJETO CarCounter
+class CarCounter {
+private:
+    std::vector<uint8_t> readings;
+    size_t maxSize;
+    mutable std::mutex mtx;
+
+public:
+    CarCounter(size_t bufferSize = 5) : maxSize(bufferSize) {
+        readings.reserve(bufferSize);
+    }
+    
+    void add(uint8_t count) {
+        std::lock_guard<std::mutex> lock(mtx);
+        
+        readings.push_back(count);
+        
+        // Remove o mais antigo se exceder o tamanho
+        if (readings.size() > maxSize) {
+            readings.erase(readings.begin());
+        }
+    }
+    
+    double get() const {
+        std::lock_guard<std::mutex> lock(mtx);
+        
+        if (readings.empty()) return 0.0;
+        
+        uint32_t sum = std::accumulate(readings.begin(), readings.end(), 0u);
+        return static_cast<double>(sum) / readings.size();
+    }
+};
+
+// VARIÁVEIS GLOBAIS
+CarCounter car_route_blue(5);  // Instancia um CarCounter que faz a média dos últimos 5 registros
+CarCounter car_route_red(5);  // Instancia um CarCounter que faz a média dos últimos 5 registros
+
 
 // DECLARAÇÃO DE FUNÇÕES / PROTOTIPAGEM
 void iniciarContador();
@@ -75,6 +113,7 @@ float relacaoCarros();
 void desenharRegiao(cv::Mat& frame, const std::vector<cv::Point>& pontos, const cv::Scalar& cor);
 void loadClasses(const string& classesFile);
 std::vector<BoxDetectado> detectarVeiculos(const cv::Mat& frame, float confianca, bool zoom = false, const std::vector<cv::Point>* roi = nullptr);
+std::vector<BoxDetectado> detectarVeiculosAprimorado(const cv::Mat& frame, float confianca, bool zoom = false, const std::vector<cv::Point>* roi = nullptr);
 
 
 /**
@@ -113,22 +152,36 @@ void loopContagem() {
     Mat frame;
     while (cap.read(frame)) {
 
-        auto boxesFull = detectarVeiculos(frame, CONFIDENCE_THRESHOLD);  // detecta todos os veículos do frame
-        auto boxesZoom = detectarVeiculos(frame, CONFIDENCE_THRESHOLD, true, &regiao_vermelha_E); // Pode ser qualquer ROI mais distante
+        // auto boxesFull = detectarVeiculos(frame, CONFIDENCE_THRESHOLD);  // detecta todos os veículos do frame
+        // auto boxesZoom = detectarVeiculos(frame, CONFIDENCE_THRESHOLD, true, &regiao_vermelha_E); // Pode ser qualquer ROI mais distante
+        auto boxesFull = detectarVeiculosAprimorado(frame, CONFIDENCE_THRESHOLD);  // detecta todos os veículos do frame
+        auto boxesZoom = detectarVeiculosAprimorado(frame, CONFIDENCE_THRESHOLD, true, &regiao_vermelha_E); // Pode ser qualquer ROI mais distante
 
         int nAzulD = contarNaArea(boxesFull, &regiao_azul_D, frame, corAzul);
         int nAzulE = contarNaArea(boxesFull, &regiao_azul_E, frame, corAzul);
-        int nVermelhaD = contarNaArea(boxesZoom, &regiao_vermelha_D, frame, corVermelha);
+        int nVermelhaD = contarNaArea(boxesFull, &regiao_vermelha_D, frame, corVermelha);
         int nVermelhaE = contarNaArea(boxesZoom, &regiao_vermelha_E, frame, corVermelha);
 
-        carros_via_azul = nAzulD + nAzulE;
-        carros_via_vermelha = nVermelhaD + nVermelhaE;
+        car_route_blue.add(nAzulD + nAzulE);
+        car_route_red.add(nVermelhaD + nVermelhaE);
 
         // MODO VISUAL 
-        putText(frame, format("Via Azul: %d", carros_via_azul.load()), Point(400, 40),
-                FONT_HERSHEY_SIMPLEX, 1, corAzul, 6);
-        putText(frame, format("Via Vermelha: %d", carros_via_vermelha.load()), Point(400, 80),
-                FONT_HERSHEY_SIMPLEX, 1, corVermelha, 6);
+
+        float rel = relacaoCarros();
+        if (rel < 0) {
+            rel *= -1;
+            putText(frame, format("RELACAO: %0.2f", rel), Point(400, 40),
+                    FONT_HERSHEY_SIMPLEX, 1, corAzul, 6);
+
+        } else if (rel > 0) {
+            putText(frame, format("RELACAO: %0.2f", rel), Point(400, 40),
+                    FONT_HERSHEY_SIMPLEX, 1, corVermelha, 6);
+
+        } else {
+            putText(frame, format("RELACAO: %0.2f", rel), Point(400, 40),
+                    FONT_HERSHEY_SIMPLEX, 1, corBranca, 6);
+
+        }
 
         desenharRegiao(frame, regiao_azul_D, corAzul);
         desenharRegiao(frame, regiao_azul_E, corAzul);
@@ -157,6 +210,97 @@ void loadClasses(const string& classesFile) {
     while (getline(ifs, line)) {
         CLASSES.push_back(line);
     }
+}
+
+// 1. Filtro adicional por área mínima (evita detecções muito pequenas)
+bool isValidDetection(const cv::Rect& box, int minArea = 500) {
+    return (box.width * box.height) >= minArea;
+}
+
+// 2. Filtro por aspect ratio (evita detecções muito alongadas)
+bool hasValidAspectRatio(const cv::Rect& box, float minRatio = 0.3, float maxRatio = 3.0) {
+    float ratio = static_cast<float>(box.width) / box.height;
+    return (ratio >= minRatio && ratio <= maxRatio);
+}
+
+// 3. Versão melhorada da função detectarVeiculos com filtros extras:
+std::vector<BoxDetectado> detectarVeiculosAprimorado(const cv::Mat& frame, float confianca, bool zoom, const std::vector<cv::Point>* roi) {
+    std::vector<BoxDetectado> resultados;
+    cv::Mat frameProcessado = frame;
+    cv::Rect boundingBox;
+
+    if (zoom && roi) {
+        boundingBox = cv::boundingRect(*roi);
+        frameProcessado = frame(boundingBox);
+    }
+
+    // Pré-processamento
+    cv::Mat blob;
+    cv::dnn::blobFromImage(frameProcessado, blob, 1 / 255.0, cv::Size(416, 416), cv::Scalar(), true, false);
+    net.setInput(blob);
+
+    std::vector<cv::Mat> outs;
+    net.forward(outs, net.getUnconnectedOutLayersNames());
+
+    std::vector<int> classIds;
+    std::vector<float> confidences;
+    std::vector<cv::Rect> boxes;
+    std::vector<cv::Point> centros;
+
+    for (const auto& output : outs) {
+        for (int i = 0; i < output.rows; ++i) {
+            cv::Mat scores = output.row(i).colRange(5, output.cols);
+            cv::Point classIdPoint;
+            double confidence;
+
+            cv::minMaxLoc(scores, 0, &confidence, 0, &classIdPoint);
+
+            if (confidence > confianca) {
+                int centerX = static_cast<int>(output.at<float>(i, 0) * frameProcessado.cols);
+                int centerY = static_cast<int>(output.at<float>(i, 1) * frameProcessado.rows);
+                int width = static_cast<int>(output.at<float>(i, 2) * frameProcessado.cols);
+                int height = static_cast<int>(output.at<float>(i, 3) * frameProcessado.rows);
+                int left = centerX - width / 2;
+                int top = centerY - height / 2;
+
+                cv::Rect currentBox(left, top, width, height);
+                
+                // Filtros adicionais
+                if (!isValidDetection(currentBox, 300)) continue;  // Área mínima
+                if (!hasValidAspectRatio(currentBox)) continue;    // Aspect ratio
+
+                // Coordenadas absolutas
+                int absLeft = left;
+                int absTop = top;
+                if (zoom && roi) {
+                    absLeft += boundingBox.x;
+                    absTop += boundingBox.y;
+                    centerX += boundingBox.x;
+                    centerY += boundingBox.y;
+                }
+
+                classIds.push_back(classIdPoint.x);
+                confidences.push_back(static_cast<float>(confidence));
+                boxes.push_back(cv::Rect(absLeft, absTop, width, height));
+                centros.push_back(cv::Point(centerX, centerY));
+            }
+        }
+    }
+
+    // NMS
+    std::vector<int> indices;
+    cv::dnn::NMSBoxes(boxes, confidences, SCORE_THRESHOLD, NMS_THRESHOLD, indices);
+
+    for (int idx : indices) {
+        BoxDetectado box;
+        box.box = boxes[idx];
+        box.confidence = confidences[idx];
+        box.classId = classIds[idx];
+        box.centro = centros[idx];
+        resultados.push_back(box);
+    }
+
+    return resultados;
 }
 
 /**
@@ -225,11 +369,11 @@ std::vector<BoxDetectado> detectarVeiculos(const cv::Mat& frame, float confianca
 }
 
 float relacaoCarros() {
-    uint8_t totalCarros = carros_via_azul + carros_via_vermelha;
+    uint8_t totalCarros = car_route_blue.get() + car_route_red.get();
     if (totalCarros == 0) return (float)0; // Evita divisão por zero
     
-    float cvv = (float)carros_via_vermelha/(float)totalCarros;
-    float cva = (float)carros_via_azul/(float)totalCarros;
+    float cvv = (float)car_route_red.get()/(float)totalCarros;
+    float cva = (float)car_route_blue.get()/(float)totalCarros;
     return cvv - cva; // Retorna a relação entre os carros das vias, de +1 a -1
 }
 

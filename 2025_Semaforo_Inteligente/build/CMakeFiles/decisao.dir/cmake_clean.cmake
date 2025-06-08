@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/decisao"
-  "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/decisao.pdb"
+  "../decisao"
+  "../decisao.pdb"
   "CMakeFiles/decisao.dir/src/decisao.cpp.o"
   "CMakeFiles/decisao.dir/src/decisao.cpp.o.d"
 )

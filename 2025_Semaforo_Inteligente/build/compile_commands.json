@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/build",
+  "command": "/usr/bin/g++  -I/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/include -isystem /usr/local/include/opencv4 -g -o CMakeFiles/contador.dir/src/main.cpp.o -c /home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/src/main.cpp",
+  "file": "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/src/main.cpp"
+},
+{
+  "directory": "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/build",
+  "command": "/usr/bin/g++  -I/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/include -isystem /usr/local/include/opencv4 -g -o CMakeFiles/contador.dir/src/contador.cpp.o -c /home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/src/contador.cpp",
+  "file": "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/src/contador.cpp"
+},
+{
+  "directory": "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/build",
+  "command": "/usr/bin/g++  -I/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/include -isystem /usr/local/include/opencv4 -g -o CMakeFiles/testa_cuda.dir/src/testa_cuda.cpp.o -c /home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/src/testa_cuda.cpp",
+  "file": "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/src/testa_cuda.cpp"
+},
+{
+  "directory": "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/build",
+  "command": "/usr/bin/g++  -I/usr/local/include/opencv4 -I/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/include -g -o CMakeFiles/testa_comunicacao.dir/src/testa_comunicacao.cpp.o -c /home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/src/testa_comunicacao.cpp",
+  "file": "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/src/testa_comunicacao.cpp"
+},
+{
+  "directory": "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/build",
+  "command": "/usr/bin/g++  -I/usr/local/include/opencv4 -I/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/include -g -o CMakeFiles/decisao.dir/src/decisao.cpp.o -c /home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/src/decisao.cpp",
+  "file": "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/src/decisao.cpp"
+}
+]

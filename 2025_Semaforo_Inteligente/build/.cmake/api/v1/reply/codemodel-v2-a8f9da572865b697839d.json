@@ -1,0 +1,87 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ContadorOpenCV",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "contador::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-contador-Debug-f0e5c8b7cfb37ff06f60.json",
+					"name" : "contador",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "decisao::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-decisao-Debug-da143a155ef8405c4ece.json",
+					"name" : "decisao",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "testa_comunicacao::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-testa_comunicacao-Debug-e144f9a25346993f5aa5.json",
+					"name" : "testa_comunicacao",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "testa_cuda::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-testa_cuda-Debug-e48b859ba0c77856ee5f.json",
+					"name" : "testa_cuda",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/build",
+		"source" : "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

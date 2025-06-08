@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/contador"
-  "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/contador.pdb"
+  "../contador"
+  "../contador.pdb"
   "CMakeFiles/contador.dir/src/contador.cpp.o"
   "CMakeFiles/contador.dir/src/contador.cpp.o.d"
   "CMakeFiles/contador.dir/src/main.cpp.o"
