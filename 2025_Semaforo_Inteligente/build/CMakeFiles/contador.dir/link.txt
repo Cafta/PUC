@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/contador.dir/src/main.cpp.o CMakeFiles/contador.dir/src/contador.cpp.o -o ../contador   -L/usr/local/lib  -Wl,-rpath,/usr/local/lib /usr/local/lib/libopencv_world.so.4.5.4 
+/usr/bin/c++ CMakeFiles/contador.dir/src/main.cpp.o CMakeFiles/contador.dir/src/contador.cpp.o -o /home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/contador   -L/usr/local/lib  -Wl,-rpath,/usr/local/lib -lopencv_world 

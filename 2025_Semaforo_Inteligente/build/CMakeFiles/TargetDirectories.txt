@@ -1,5 +1,6 @@
 /home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/build/CMakeFiles/contador.dir
 /home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/build/CMakeFiles/testa_cuda.dir
 /home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/build/CMakeFiles/testa_comunicacao.dir
+/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/build/CMakeFiles/decisao.dir
 /home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/build/CMakeFiles/edit_cache.dir
 /home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/build/CMakeFiles/rebuild_cache.dir

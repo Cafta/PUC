@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/decisao.dir/src/decisao.cpp.o -o /home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/decisao   -L/usr/local/lib 

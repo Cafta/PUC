@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/testa_comunicacao.dir/src/testa_comunicacao.cpp.o -o ../testa_comunicacao   -L/usr/local/lib 
+/usr/bin/c++ CMakeFiles/testa_comunicacao.dir/src/testa_comunicacao.cpp.o -o /home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/testa_comunicacao   -L/usr/local/lib 

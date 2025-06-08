@@ -42,3 +42,14 @@ add_executable(testa_comunicacao
 # (nenhuma dependência do OpenCV)
 set_target_properties(testa_comunicacao PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})  # gera na raiz
+
+
+# -------------------------------------------------------------------
+# 5. Executável 'decisao.cpp'
+# -------------------------------------------------------------------
+add_executable(decisao
+    src/decisao.cpp
+)
+# (nenhuma dependência do OpenCV)
+set_target_properties(decisao PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})  # gera na raiz

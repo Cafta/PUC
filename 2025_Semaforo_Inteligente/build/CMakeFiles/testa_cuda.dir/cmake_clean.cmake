@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "../testa_cuda"
-  "../testa_cuda.pdb"
+  "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/testa_cuda"
+  "/home/cafe/GitHub/PUC/2025_Semaforo_Inteligente/testa_cuda.pdb"
   "CMakeFiles/testa_cuda.dir/src/testa_cuda.cpp.o"
   "CMakeFiles/testa_cuda.dir/src/testa_cuda.cpp.o.d"
 )
