@@ -3,8 +3,17 @@
 #include <thread>
 #include <cmath>
 #include "contador.hpp"
+#include <fcntl.h>
+#include <termios.h>
+#include <unistd.h>
+#include <cstring>
 
 int via = 0;
+int fd = -1;
+#define arduino "/dev/ttyUSB0"
+
+//  DECLARAÇÃO DE FUNÇÕES
+void initSerial(const char* device = "/dev/ttyUSB0");
 
 auto calculaTempo() -> std::chrono::steady_clock::time_point {
     auto retorno = std::chrono::steady_clock::now();
@@ -27,13 +36,19 @@ bool naoTemCarro() {
 }
 
 void colocaSinal(uint8_t frame) {
+// TROCA OS SINAIS FÍSICOS NO ARDUINO
+    char buffer[4];
+    int len = snprintf(buffer, sizeof(buffer), "%u\n", frame);
+    write(fd, buffer, len);
+    tcdrain(fd);
+
+    // PENAS EXIBIÇÃO NO SERIAL MONITOR
     std::string sinal_v0;
     std::string sinal_v1;
     sinal_v0 = (frame & 0b001000) ? "Verde" : 
                (frame & 0b010000) ? "amarelo" : "vermelho";
     sinal_v1 = (frame & 0b000001) ? "Verde" : 
                (frame & 0b000010) ? "amarelo" : "vermelho";
-
     std::cout << "Azul: " << sinal_v0 << " | Vermelho: " << sinal_v1 << std::endl;
 }
 
@@ -64,6 +79,7 @@ int main() {
 
     std::cout << "####  INICIANDO SISTEMA  #### " << std::endl;
     iniciarContador();  // Inicia a thread de contagem
+    initSerial(arduino);  // Inicia a comunicação serial com o arduino
     std::cout << "Carregando.";
     while (steady_clock::now() < deadLine) 
     {
@@ -104,5 +120,36 @@ int main() {
 
     }
 
+    close(fd);  // fecha a porta de comunicação com o arduino
     return 0;
+}
+
+void initSerial(const char* device) {
+    fd = open(device, O_RDWR | O_NOCTTY);
+    if (fd == -1) {
+        perror("Erro ao abrir porta serial");
+        exit(1);
+    }
+
+    struct termios tty;
+    memset(&tty, 0, sizeof(tty));
+    if (tcgetattr(fd, &tty) != 0) {
+        perror("Erro ao obter atributos da porta serial");
+        exit(1);
+    }
+
+    cfsetospeed(&tty, B9600);
+    cfsetispeed(&tty, B9600);
+
+    tty.c_cflag |= (CLOCAL | CREAD);
+    tty.c_cflag &= ~CSIZE;
+    tty.c_cflag |= CS8;
+    tty.c_cflag &= ~PARENB;
+    tty.c_cflag &= ~CSTOPB;
+    tty.c_cflag &= ~CRTSCTS;
+    tty.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+    tty.c_iflag &= ~(IXON | IXOFF | IXANY);
+    tty.c_oflag &= ~OPOST;
+
+    tcsetattr(fd, TCSANOW, &tty);
 }
