@@ -3,6 +3,13 @@
 Este projeto é parte da pesquisa realizada para a disciplina de ***Tópicos de Engenharia e Automação II***, com o professor ***Hamilton da Gama Schroder Filho*** e demonstra a visualização e análise de um circuito quântico simples que explora os efeitos de interferência quântica usando portas Hadamard e T.
 
 * *Autor:* ***Carlos Amaral***
+* *Grupo:*   
+-----***André Kimais***-----   
+-----***Carlos Amaral***-----   
+-----***Gabriel Morelli***-----   
+-----***Guilherme Rafael Talman***-----   
+-----***Murilo Trevisan***-----   
+
 
 ## Descrição
 
