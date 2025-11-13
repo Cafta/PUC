@@ -25,7 +25,6 @@ class Position:
         """Calcula distância euclidiana entre duas posições"""
         return np.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
 
-
 class GameObject(ABC):
     """Classe abstrata base para todos os objetos do jogo"""
     

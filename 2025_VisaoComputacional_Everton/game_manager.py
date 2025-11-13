@@ -197,9 +197,10 @@ class GameManager:
                    (20, 35), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
         
         # Vidas
-        lives_text = "♥" * self.score_manager.lives + "♡" * (self.score_manager.max_lives - self.score_manager.lives)
+        lives_text = self.score_manager.lives
         cv2.putText(frame, f"Lives: {lives_text}", 
                    (20, 65), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+        #"♥" * "♡" * + (self.score_manager.max_lives - self.score_manager.lives)
         
         # Combo
         if self.score_manager.combo > 0:
