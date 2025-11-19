@@ -89,8 +89,9 @@ class GameManager:
             self.state = GameState.PLAYING
         else:
             # Jogo completo - volta ao início com dificuldade aumentada
-            self.phase_number = 1
-            self._load_phase(1)
+            # self.phase_number = 1
+            # self._load_phase(1)
+            self.state = GameState.GAME_OVER
             
     def update(self, frame: np.ndarray) -> np.ndarray:
         """Atualiza o estado do jogo e retorna o frame renderizado"""

@@ -60,7 +60,7 @@ def main():
         
         # Processa a pose
         results = pose.process(rgb_frame)
-        
+
         # Atualiza posições dos punhos no game manager
         if results.pose_landmarks:
             game_manager.update_wrist_positions(results.pose_landmarks.landmark)
